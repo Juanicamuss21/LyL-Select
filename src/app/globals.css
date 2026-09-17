@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-dark-bg text-neutral-200 antialiased selection:bg-gold/20 selection:text-gold-light;
+    font-family: var(--font-sans), system-ui, sans-serif;
+  }
+
+  h1, h2, h3, .font-serif-brand {
+    font-family: var(--font-serif), Georgia, serif;
+  }
+}
+
+@layer utilities {
+  .gold-gradient-text {
+    @apply bg-gradient-to-r from-[#C9A227] via-[#E5C368] to-[#F0D580] bg-clip-text text-transparent;
+  }
+
+  .gold-gradient-bg {
+    @apply bg-gradient-to-r from-[#C9A227] via-[#E5C368] to-[#F0D580] text-black font-semibold;
+  }
+
+  .gold-border-glow {
+    border-color: rgba(201, 162, 39, 0.3);
+    box-shadow: 0 0 15px rgba(201, 162, 39, 0.12);
+  }
+
+  .liquid-glass {
+    background: rgba(255, 255, 255, 0.025);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+  }
+
+  .liquid-glass-card {
+    background: linear-gradient(135deg, rgba(30, 30, 30, 0.7) 0%, rgba(18, 18, 18, 0.85) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .liquid-glass-gold {
+    background: linear-gradient(135deg, rgba(201, 162, 39, 0.08) 0%, rgba(20, 20, 20, 0.9) 100%);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(201, 162, 39, 0.25);
+  }
+}
+
+/* Custom minimal scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: #262626;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #c9a227;
+}
+
