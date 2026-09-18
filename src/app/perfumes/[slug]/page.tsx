@@ -160,29 +160,51 @@ export default async function PerfumeDetailPage({ params }: PerfumePageProps) {
 
               {/* Performance & Technical Details Grid */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 text-center">
-                <div className="rounded-xl border border-white/[0.06] bg-dark-card/60 p-4">
-                  <span className="text-[10px] uppercase tracking-widest text-neutral-400 block">
+                {/* Duración */}
+                <div className="group flex flex-col items-center justify-center rounded-2xl border border-white/[0.07] bg-dark-card/70 p-4 sm:p-5 backdrop-blur-md transition-all duration-300 hover:border-gold/30 hover:bg-dark-card/95 hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
+                  <div className="mb-2.5 flex h-9 w-9 items-center justify-center rounded-xl border border-gold/25 bg-gold/5 text-gold transition-all duration-300 group-hover:border-gold/45 group-hover:bg-gold/10 group-hover:shadow-gold-glow">
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
+                      <circle cx="12" cy="12" r="9" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6l4.243 2.121" />
+                    </svg>
+                  </div>
+                  <span className="text-[10px] uppercase tracking-widest text-neutral-400 font-medium">
                     Duración
                   </span>
-                  <strong className="mt-1 block text-sm sm:text-base font-medium text-white">
+                  <strong className="mt-1.5 block text-sm sm:text-base font-semibold text-white transition-colors group-hover:text-gold-light">
                     {perfume.duracion}
                   </strong>
                 </div>
 
-                <div className="rounded-xl border border-white/[0.06] bg-dark-card/60 p-4">
-                  <span className="text-[10px] uppercase tracking-widest text-neutral-400 block">
+                {/* Proyección */}
+                <div className="group flex flex-col items-center justify-center rounded-2xl border border-white/[0.07] bg-dark-card/70 p-4 sm:p-5 backdrop-blur-md transition-all duration-300 hover:border-gold/30 hover:bg-dark-card/95 hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
+                  <div className="mb-2.5 flex h-9 w-9 items-center justify-center rounded-xl border border-gold/25 bg-gold/5 text-gold transition-all duration-300 group-hover:border-gold/45 group-hover:bg-gold/10 group-hover:shadow-gold-glow">
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
+                      <circle cx="12" cy="12" r="2.25" fill="currentColor" />
+                      <circle cx="12" cy="12" r="6" />
+                      <circle cx="12" cy="12" r="9.75" opacity="0.65" />
+                    </svg>
+                  </div>
+                  <span className="text-[10px] uppercase tracking-widest text-neutral-400 font-medium">
                     Proyección
                   </span>
-                  <strong className="mt-1 block text-sm sm:text-base font-medium text-white">
+                  <strong className="mt-1.5 block text-sm sm:text-base font-semibold text-white transition-colors group-hover:text-gold-light">
                     {perfume.proyeccion}
                   </strong>
                 </div>
 
-                <div className="col-span-2 sm:col-span-1 rounded-xl border border-white/[0.06] bg-dark-card/60 p-4">
-                  <span className="text-[10px] uppercase tracking-widest text-neutral-400 block">
+                {/* Ocasión Ideal */}
+                <div className="col-span-2 sm:col-span-1 group flex flex-col items-center justify-center rounded-2xl border border-white/[0.07] bg-dark-card/70 p-4 sm:p-5 backdrop-blur-md transition-all duration-300 hover:border-gold/30 hover:bg-dark-card/95 hover:shadow-[0_4px_24px_rgba(0,0,0,0.5)]">
+                  <div className="mb-2.5 flex h-9 w-9 items-center justify-center rounded-xl border border-gold/25 bg-gold/5 text-gold transition-all duration-300 group-hover:border-gold/45 group-hover:bg-gold/10 group-hover:shadow-gold-glow">
+                    <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.75}>
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" />
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M8 13h2v2H8zm4 0h2v2h-2zm4 0h2v2h-2z" />
+                    </svg>
+                  </div>
+                  <span className="text-[10px] uppercase tracking-widest text-neutral-400 font-medium">
                     Ocasión Ideal
                   </span>
-                  <strong className="mt-1 block text-xs sm:text-sm font-medium text-white">
+                  <strong className="mt-1.5 block text-xs sm:text-sm font-semibold text-white transition-colors group-hover:text-gold-light">
                     {perfume.ocasion}
                   </strong>
                 </div>
