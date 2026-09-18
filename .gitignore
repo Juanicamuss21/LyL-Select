@@ -54,10 +54,14 @@ Thumbs.db
 .AppleDouble
 .LSOverride
 
-# Claude Code
+# Claude Code & MCP
 .claude/skills/**/node_modules
 .claude/plugins
 *.mcp.json
+.mcp.json
+mcp_config.json
+.agents/mcp_config.json
+.playwright-mcp/
 !example.mcp.json
 
 # Supabase
