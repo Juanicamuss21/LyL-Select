@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import type { Perfume, FamiliaOlfativa, GeneroFragancia } from '../types'
 import { PerfumeCard } from './PerfumeCard'
 
@@ -32,6 +32,19 @@ export function PerfumeCatalogClient({ initialPerfumes }: PerfumeCatalogClientPr
   const [familiaSeleccionada, setFamiliaSeleccionada] = useState('todas')
   const [generoSeleccionado, setGeneroSeleccionado] = useState('todos')
   const [soloDisponibles, setSoloDisponibles] = useState(false)
+
+  // Smooth autoscroll if page was loaded or navigated with #catalogo hash
+  useEffect(() => {
+    if (typeof window !== 'undefined' && window.location.hash === '#catalogo') {
+      const el = document.getElementById('catalogo')
+      if (el) {
+        const timer = setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        }, 120)
+        return () => clearTimeout(timer)
+      }
+    }
+  }, [])
 
   const perfumesFiltrados = useMemo(() => {
     return initialPerfumes.filter((p) => {
@@ -133,14 +146,17 @@ export function PerfumeCatalogClient({ initialPerfumes }: PerfumeCatalogClientPr
         </div>
 
         {/* Gender Filter Pills */}
-        <div className="mt-4 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        <div className="mt-4 flex items-center gap-2 overflow-x-auto scroll-smooth pb-1 scrollbar-none">
           <span className="text-[11px] uppercase tracking-wider text-neutral-400 font-semibold mr-1 shrink-0">
             Género:
           </span>
           {GENEROS.map((g) => (
             <button
               key={g.id}
-              onClick={() => setGeneroSeleccionado(g.id)}
+              onClick={(e) => {
+                setGeneroSeleccionado(g.id)
+                e.currentTarget.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+              }}
               className={`rounded-full px-3.5 py-1 text-xs font-medium transition-all shrink-0 ${
                 generoSeleccionado === g.id
                   ? 'bg-gold text-black font-semibold shadow-gold-glow'
@@ -153,14 +169,17 @@ export function PerfumeCatalogClient({ initialPerfumes }: PerfumeCatalogClientPr
         </div>
 
         {/* Olfactory Families Horizontal Pills */}
-        <div className="mt-3 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        <div className="mt-3 flex items-center gap-2 overflow-x-auto scroll-smooth pb-1 scrollbar-none">
           <span className="text-[11px] uppercase tracking-wider text-neutral-400 font-semibold mr-1 shrink-0">
             Familia:
           </span>
           {FAMILIAS.map((f) => (
             <button
               key={f.id}
-              onClick={() => setFamiliaSeleccionada(f.id)}
+              onClick={(e) => {
+                setFamiliaSeleccionada(f.id)
+                e.currentTarget.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+              }}
               className={`rounded-full px-3.5 py-1 text-xs font-medium transition-all shrink-0 ${
                 familiaSeleccionada === f.id
                   ? 'bg-white text-black font-semibold'

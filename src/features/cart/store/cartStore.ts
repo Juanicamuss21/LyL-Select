@@ -8,6 +8,7 @@ interface CartState {
   items: CartItem[]
   isOpen: boolean
   hasHydrated: boolean
+  lastAddedId: string | null
   
   // Actions
   openCart: () => void
@@ -18,6 +19,7 @@ interface CartState {
   updateQuantity: (id: string, delta: number) => void
   clearCart: () => void
   setHasHydrated: (state: boolean) => void
+  setLastAddedId: (id: string | null) => void
   
   // Getters
   getTotalPrice: () => number
@@ -30,10 +32,12 @@ export const useCartStore = create<CartState>()(
       items: [],
       isOpen: false,
       hasHydrated: false,
+      lastAddedId: null,
 
       openCart: () => set({ isOpen: true }),
       closeCart: () => set({ isOpen: false }),
       toggleCart: () => set((state) => ({ isOpen: !state.isOpen })),
+      setLastAddedId: (id) => set({ lastAddedId: id }),
 
       addItem: (newItem) => {
         set((state) => {
@@ -46,12 +50,13 @@ export const useCartStore = create<CartState>()(
               ...updatedItems[existingIndex],
               cantidad: updatedItems[existingIndex].cantidad + addQty,
             }
-            return { items: updatedItems, isOpen: true }
+            return { items: updatedItems, isOpen: true, lastAddedId: newItem.id }
           }
 
           return {
             items: [...state.items, { ...newItem, cantidad: addQty }],
             isOpen: true,
+            lastAddedId: newItem.id,
           }
         })
       },

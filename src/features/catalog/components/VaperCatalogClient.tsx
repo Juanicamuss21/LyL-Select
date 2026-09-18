@@ -91,14 +91,17 @@ export function VaperCatalogClient({ initialVapers }: VaperCatalogClientProps) {
         </div>
 
         {/* Brands Horizontal Pills */}
-        <div className="mt-4 flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        <div className="mt-4 flex items-center gap-2 overflow-x-auto scroll-smooth pb-1 scrollbar-none">
           <span className="text-[11px] uppercase tracking-wider text-neutral-400 font-semibold mr-1 shrink-0">
             Marca:
           </span>
           {marcasDisponibles.map((m) => (
             <button
               key={m}
-              onClick={() => setMarcaSeleccionada(m)}
+              onClick={(e) => {
+                setMarcaSeleccionada(m)
+                e.currentTarget.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+              }}
               className={`rounded-full px-3.5 py-1 text-xs font-medium transition-all shrink-0 capitalize ${
                 marcaSeleccionada === m
                   ? 'bg-gold text-black font-semibold shadow-gold-glow'

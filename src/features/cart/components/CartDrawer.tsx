@@ -1,13 +1,16 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
+import { useRouter, usePathname } from 'next/navigation'
 import { useCartStore } from '../store/cartStore'
 import { formatPriceARS } from '@/features/catalog/utils/whatsapp'
 import { buildCartWhatsAppUrl } from '../utils/whatsappCheckout'
 
 export function CartDrawer() {
+  const router = useRouter()
+  const pathname = usePathname()
+
   const {
     items,
     isOpen,
@@ -18,7 +21,14 @@ export function CartDrawer() {
     getTotalPrice,
     getTotalItems,
     hasHydrated,
+    lastAddedId,
+    setLastAddedId,
   } = useCartStore()
+
+  const itemsContainerRef = useRef<HTMLDivElement>(null)
+  const [highlightedId, setHighlightedId] = useState<string | null>(null)
+  const [showScrollTop, setShowScrollTop] = useState(false)
+  const [showScrollBottom, setShowScrollBottom] = useState(false)
 
   // Prevent background scrolling when cart is open
   useEffect(() => {
@@ -32,6 +42,62 @@ export function CartDrawer() {
     }
   }, [isOpen])
 
+  // Smooth autoscroll to newly added item and flash highlight
+  useEffect(() => {
+    if (isOpen && lastAddedId) {
+      setHighlightedId(lastAddedId)
+
+      const scrollTimer = setTimeout(() => {
+        const itemEl = document.getElementById(`cart-item-${lastAddedId}`)
+        if (itemEl) {
+          itemEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+        }
+      }, 100)
+
+      const glowTimer = setTimeout(() => {
+        setHighlightedId(null)
+        setLastAddedId(null)
+      }, 2000)
+
+      return () => {
+        clearTimeout(scrollTimer)
+        clearTimeout(glowTimer)
+      }
+    }
+  }, [isOpen, lastAddedId, setLastAddedId])
+
+  // Check scroll position to display quick autoscroll indicators
+  const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
+    const { scrollTop, scrollHeight, clientHeight } = e.currentTarget
+    setShowScrollTop(scrollTop > 120)
+    setShowScrollBottom(scrollHeight - scrollTop - clientHeight > 80)
+  }
+
+  const scrollToTop = () => {
+    itemsContainerRef.current?.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
+  const scrollToBottom = () => {
+    if (itemsContainerRef.current) {
+      itemsContainerRef.current.scrollTo({
+        top: itemsContainerRef.current.scrollHeight,
+        behavior: 'smooth',
+      })
+    }
+  }
+
+  const handleExploreCatalog = () => {
+    closeCart()
+    if (pathname === '/') {
+      const el = document.getElementById('catalogo')
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }
+    } else {
+      router.push('/#catalogo')
+    }
+  }
+
   if (!isOpen) return null
 
   const total = getTotalPrice()
@@ -39,9 +105,7 @@ export function CartDrawer() {
 
   const handleCheckout = () => {
     const url = buildCartWhatsAppUrl(items, total)
-    // Open WhatsApp in new tab
     window.open(url, '_blank')
-    // Clear cart and close drawer as requested
     clearCart()
     closeCart()
   }
@@ -75,8 +139,22 @@ export function CartDrawer() {
           </button>
         </div>
 
-        {/* Content Area */}
-        <div className="flex-1 overflow-y-auto px-5 py-4 sm:px-6 space-y-4 scrollbar-thin">
+        {/* Content Area with Smooth Scroll */}
+        <div
+          ref={itemsContainerRef}
+          onScroll={handleScroll}
+          className="relative flex-1 overflow-y-auto scroll-smooth overscroll-contain px-5 py-4 sm:px-6 space-y-4 scrollbar-thin"
+        >
+          {/* Quick Smooth Autoscroll to Top Pill */}
+          {showScrollTop && (
+            <button
+              onClick={scrollToTop}
+              className="sticky top-2 z-20 mx-auto flex items-center gap-1.5 rounded-full border border-gold/40 bg-black/80 px-3 py-1 text-[11px] font-medium text-gold-light shadow-gold-glow backdrop-blur-md transition-all hover:scale-105 active:scale-95"
+            >
+              <span>↑ Volver arriba</span>
+            </button>
+          )}
+
           {items.length === 0 ? (
             /* Empty State */
             <div className="flex h-full flex-col items-center justify-center py-12 text-center">
@@ -93,22 +171,28 @@ export function CartDrawer() {
               </p>
               <div className="mt-6 flex flex-col gap-2.5 w-full max-w-xs">
                 <button
-                  onClick={() => {
-                    closeCart()
-                  }}
-                  className="w-full rounded-xl bg-gradient-to-r from-gold via-gold-mid to-gold-light py-3 text-xs font-bold text-black transition-all hover:shadow-gold-glow"
+                  onClick={handleExploreCatalog}
+                  className="w-full rounded-xl bg-gradient-to-r from-gold via-gold-mid to-gold-light py-3 text-xs font-bold text-black transition-all hover:shadow-gold-glow active:scale-95"
                 >
-                  Explorar Catálogo
+                  Explorar Catálogo ↓
                 </button>
               </div>
             </div>
           ) : (
             /* Items List */
-            items.map((item) => (
-              <div
-                key={item.id}
-                className="group relative flex gap-3.5 rounded-xl border border-white/[0.07] bg-dark-card/60 p-3.5 backdrop-blur-md transition-all hover:border-gold/30"
-              >
+            items.map((item) => {
+              const isHighlighted = highlightedId === item.id
+
+              return (
+                <div
+                  key={item.id}
+                  id={`cart-item-${item.id}`}
+                  className={`group relative flex gap-3.5 rounded-xl border p-3.5 backdrop-blur-md transition-all duration-500 ${
+                    isHighlighted
+                      ? 'border-gold bg-gold/10 shadow-gold-glow ring-1 ring-gold/50'
+                      : 'border-white/[0.07] bg-dark-card/60 hover:border-gold/30'
+                  }`}
+                >
                 {/* Thumbnail Image */}
                 {item.imagen_url ? (
                   <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-neutral-900 border border-white/5">
@@ -196,8 +280,21 @@ export function CartDrawer() {
                     </span>
                   </div>
                 </div>
-              </div>
-            ))
+                </div>
+              )
+            })
+          )}
+
+          {/* Quick Smooth Autoscroll to Bottom / Total */}
+          {showScrollBottom && items.length > 2 && (
+            <div className="sticky bottom-2 z-20 flex justify-center pointer-events-none">
+              <button
+                onClick={scrollToBottom}
+                className="pointer-events-auto flex items-center gap-1.5 rounded-full border border-gold/40 bg-black/85 px-3.5 py-1 text-[11px] font-medium text-gold-light shadow-gold-glow backdrop-blur-md transition-all hover:scale-105 active:scale-95"
+              >
+                <span>↓ Ir al total</span>
+              </button>
+            </div>
           )}
         </div>
 

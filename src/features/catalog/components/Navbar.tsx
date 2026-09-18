@@ -13,6 +13,18 @@ export function Navbar() {
 
   const waUrl = buildWhatsAppLink(buildGeneralQueryMessage())
 
+  const handlePerfumesClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (pathname === '/') {
+      e.preventDefault()
+      const el = document.getElementById('catalogo')
+      if (el) {
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      }
+    }
+  }
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/[0.08] bg-dark-bg/85 backdrop-blur-xl transition-all">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
@@ -31,7 +43,8 @@ export function Navbar() {
         {/* Navigation Tabs */}
         <nav className="hidden md:flex items-center gap-1 rounded-full border border-white/[0.08] bg-dark-surface/60 p-1.5 shadow-inner">
           <Link
-            href="/"
+            href="/#catalogo"
+            onClick={handlePerfumesClick}
             className={`rounded-full px-5 py-2 text-xs uppercase tracking-widest font-medium transition-all ${isPerfumes
                 ? 'bg-gradient-to-r from-gold via-gold-mid to-gold-light text-black font-semibold shadow-gold-glow'
                 : 'text-neutral-400 hover:text-white hover:bg-white/[0.04]'
@@ -75,7 +88,8 @@ export function Navbar() {
       {/* Mobile Sub-Navigation Bar */}
       <div className="flex border-t border-white/[0.06] md:hidden">
         <Link
-          href="/"
+          href="/#catalogo"
+          onClick={handlePerfumesClick}
           className={`flex-1 py-2.5 text-center text-xs uppercase tracking-wider font-medium transition-colors ${isPerfumes
               ? 'border-b-2 border-gold text-gold-light bg-white/[0.02]'
               : 'text-neutral-400 hover:text-white'

@@ -62,9 +62,9 @@ export default async function HomePage() {
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <a
               href="#catalogo"
-              className="rounded-full bg-gradient-to-r from-gold via-gold-mid to-gold-light px-8 py-3.5 text-sm font-bold text-black shadow-gold-glow hover:opacity-95 transition-all"
+              className="rounded-full bg-gradient-to-r from-gold via-gold-mid to-gold-light px-8 py-3.5 text-sm font-bold text-black shadow-gold-glow hover:opacity-95 hover:shadow-gold-glow-lg active:scale-95 transition-all cursor-pointer"
             >
-              Explorar Catálogo de Perfumes
+              Explorar Catálogo de Perfumes ↓
             </a>
             <Link
               href="/vapers"
@@ -117,7 +117,7 @@ export default async function HomePage() {
       </section>
 
       {/* Main Catalog Section */}
-      <main id="catalogo" className="flex-1 py-12 sm:py-16">
+      <main id="catalogo" className="flex-1 py-12 sm:py-16 scroll-mt-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-8 flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4">
             <div>

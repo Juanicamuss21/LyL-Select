@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 5.5rem;
+  }
+
   body {
     @apply bg-dark-bg text-neutral-200 antialiased selection:bg-gold/20 selection:text-gold-light;
     font-family: var(--font-sans), system-ui, sans-serif;
