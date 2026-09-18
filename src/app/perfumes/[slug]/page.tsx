@@ -194,6 +194,33 @@ export default async function PerfumeDetailPage({ params }: PerfumePageProps) {
           </div>
         </div>
       </main>
+
+      {/* Footer */}
+      <footer className="border-t border-white/[0.08] bg-black py-10 text-center text-xs text-neutral-400">
+        <div className="mx-auto max-w-7xl px-4 space-y-3">
+          <div className="flex justify-center">
+            <Link href="/" className="inline-block transition-transform duration-300 hover:scale-105">
+              <Image
+                src="/logo.png"
+                alt="LyL Select"
+                width={80}
+                height={80}
+                className="h-20 w-20 object-contain"
+              />
+            </Link>
+          </div>
+          <p>Perfumería de autor, decants seleccionados y vapers importados.</p>
+          <div className="pt-3 flex items-center justify-center gap-6">
+            <Link href="/" className="hover:text-white transition-colors">
+              Catálogo de Perfumes
+            </Link>
+            <span className="text-neutral-700">|</span>
+            <Link href="/vapers" className="hover:text-white transition-colors">
+              Línea Vapers
+            </Link>
+          </div>
+        </div>
+      </footer>
     </div>
   )
 }

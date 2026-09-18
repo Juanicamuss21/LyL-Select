@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { buildWhatsAppLink, buildGeneralQueryMessage } from '../utils/whatsapp'
 
@@ -15,36 +16,34 @@ export function Navbar() {
     <header className="sticky top-0 z-50 w-full border-b border-white/[0.08] bg-dark-bg/85 backdrop-blur-xl transition-all">
       <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Brand Logo */}
-        <Link href="/" className="group flex flex-col items-start">
-          <span className="font-serif text-2xl font-bold tracking-wider sm:text-3xl">
-            <span className="gold-gradient-text drop-shadow-[0_2px_12px_rgba(201,162,39,0.3)]">
-              LyL Select
-            </span>
-          </span>
-          <span className="text-[10px] uppercase tracking-[0.25em] text-neutral-400 group-hover:text-gold-light transition-colors">
-            Alta Perfumería & Vapers
-          </span>
+        <Link href="/" className="group flex items-center py-1">
+          <Image
+            src="/logo.png"
+            alt="LyL Select - Perfumería de Autor & Vapers"
+            width={64}
+            height={64}
+            priority
+            className="h-14 w-14 sm:h-16 sm:w-16 object-contain transition-transform duration-300 group-hover:scale-105"
+          />
         </Link>
 
         {/* Navigation Tabs */}
         <nav className="hidden md:flex items-center gap-1 rounded-full border border-white/[0.08] bg-dark-surface/60 p-1.5 shadow-inner">
           <Link
             href="/"
-            className={`rounded-full px-5 py-2 text-xs uppercase tracking-widest font-medium transition-all ${
-              isPerfumes
+            className={`rounded-full px-5 py-2 text-xs uppercase tracking-widest font-medium transition-all ${isPerfumes
                 ? 'bg-gradient-to-r from-gold via-gold-mid to-gold-light text-black font-semibold shadow-gold-glow'
                 : 'text-neutral-400 hover:text-white hover:bg-white/[0.04]'
-            }`}
+              }`}
           >
             Perfumes & Decants
           </Link>
           <Link
             href="/vapers"
-            className={`rounded-full px-5 py-2 text-xs uppercase tracking-widest font-medium transition-all ${
-              isVapers
+            className={`rounded-full px-5 py-2 text-xs uppercase tracking-widest font-medium transition-all ${isVapers
                 ? 'bg-gradient-to-r from-gold via-gold-mid to-gold-light text-black font-semibold shadow-gold-glow'
                 : 'text-neutral-400 hover:text-white hover:bg-white/[0.04]'
-            }`}
+              }`}
           >
             Vapers Descartables
           </Link>
@@ -74,21 +73,19 @@ export function Navbar() {
       <div className="flex border-t border-white/[0.06] md:hidden">
         <Link
           href="/"
-          className={`flex-1 py-2.5 text-center text-xs uppercase tracking-wider font-medium transition-colors ${
-            isPerfumes
+          className={`flex-1 py-2.5 text-center text-xs uppercase tracking-wider font-medium transition-colors ${isPerfumes
               ? 'border-b-2 border-gold text-gold-light bg-white/[0.02]'
               : 'text-neutral-400 hover:text-white'
-          }`}
+            }`}
         >
           Perfumes
         </Link>
         <Link
           href="/vapers"
-          className={`flex-1 py-2.5 text-center text-xs uppercase tracking-wider font-medium transition-colors ${
-            isVapers
+          className={`flex-1 py-2.5 text-center text-xs uppercase tracking-wider font-medium transition-colors ${isVapers
               ? 'border-b-2 border-gold text-gold-light bg-white/[0.02]'
               : 'text-neutral-400 hover:text-white'
-          }`}
+            }`}
         >
           Vapers
         </Link>

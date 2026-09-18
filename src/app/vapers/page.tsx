@@ -1,4 +1,6 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
+import Link from 'next/link'
 import { Navbar } from '@/features/catalog/components/Navbar'
 import { VaperCatalogClient } from '@/features/catalog/components/VaperCatalogClient'
 import { getVapers } from '@/features/catalog/services/catalog'
@@ -48,9 +50,17 @@ export default async function VapersPage() {
       {/* Footer */}
       <footer className="border-t border-white/[0.08] bg-black py-10 text-center text-xs text-neutral-400">
         <div className="mx-auto max-w-7xl px-4 space-y-3">
-          <span className="font-serif text-xl font-bold gold-gradient-text">
-            LyL Select
-          </span>
+          <div className="flex justify-center">
+            <Link href="/" className="inline-block transition-transform duration-300 hover:scale-105">
+              <Image
+                src="/logo.png"
+                alt="LyL Select"
+                width={80}
+                height={80}
+                className="h-20 w-20 object-contain"
+              />
+            </Link>
+          </div>
           <p>Línea exclusiva de vapeo y perfumería de autor.</p>
           <div className="pt-3">
             <a

@@ -22,9 +22,10 @@ export function VaperCard({ vaper }: VaperCardProps) {
       {/* Product Image */}
       <div className="relative h-60 w-full overflow-hidden bg-neutral-900">
         <Image
-          src={vaper.imagen_url}
+          src={vaper.imagen_url || '/images/vaper-placeholder.svg'}
           alt={`${vaper.marca} - ${vaper.nombre}`}
           fill
+          unoptimized={Boolean(vaper.imagen_url?.endsWith('.svg'))}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
           className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
         />
