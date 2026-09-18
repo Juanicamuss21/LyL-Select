@@ -16,15 +16,31 @@ export async function generateMetadata({ params }: PerfumePageProps): Promise<Me
 
   if (!perfume) {
     return {
-      title: 'Perfume no encontrado | LyL Select',
+      title: 'Perfume no encontrado — LyL Select',
+      description: 'El perfume solicitado no fue encontrado en nuestro catálogo.',
     }
   }
 
+  const pageTitle = `${perfume.nombre} — LyL Select`
+
   return {
-    title: `${perfume.nombre} - ${perfume.marca} | Decants & Frasco | LyL Select`,
-    description: `${perfume.nombre} de ${perfume.marca}. Fragancia ${perfume.familia_olfativa} (${perfume.genero}). Disponible en decants de 5ml, 10ml y frasco sellado. ${perfume.descripcion.slice(0, 120)}...`,
+    title: {
+      absolute: pageTitle,
+    },
+    description: perfume.descripcion,
     openGraph: {
-      title: `${perfume.nombre} - ${perfume.marca} | LyL Select`,
+      title: pageTitle,
+      description: perfume.descripcion,
+      images: [
+        {
+          url: perfume.imagen_url,
+          alt: `${perfume.nombre} — ${perfume.marca}`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: pageTitle,
       description: perfume.descripcion,
       images: [perfume.imagen_url],
     },

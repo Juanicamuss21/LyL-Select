@@ -9,8 +9,31 @@ import { buildWhatsAppLink, buildGeneralQueryMessage } from '@/features/catalog/
 export const revalidate = 60
 
 export const metadata: Metadata = {
-  title: 'Vapers Descartables Importados | LyL Select',
-  description: 'Catálogo de vapers descartables originales: Elfbar, Lost Mary, Ignite, Waka. Envíos y pedidos directos por WhatsApp.',
+  title: {
+    absolute: 'Vapers Descartables — LyL Select',
+  },
+  description:
+    'Dispositivos descartables importados originales: Elfbar, Lost Mary, Ignite y Waka con entrega inmediata en toda Argentina. Asesoramiento por WhatsApp.',
+  openGraph: {
+    title: 'Vapers Descartables — LyL Select',
+    description:
+      'Dispositivos descartables importados originales: Elfbar, Lost Mary, Ignite y Waka con entrega inmediata en toda Argentina. Asesoramiento por WhatsApp.',
+    images: [
+      {
+        url: '/logo-background.png',
+        width: 736,
+        height: 736,
+        alt: 'LyL Select — Vapers Descartables',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Vapers Descartables — LyL Select',
+    description:
+      'Dispositivos descartables importados originales: Elfbar, Lost Mary, Ignite y Waka con entrega inmediata en toda Argentina.',
+    images: ['/logo-background.png'],
+  },
 }
 
 export default async function VapersPage() {
