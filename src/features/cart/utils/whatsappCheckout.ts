@@ -1,33 +1,42 @@
 import type { CartItem } from '../types'
 import { formatPriceARS, LYL_WHATSAPP_NUMBER } from '@/features/catalog/utils/whatsapp'
 
+// Emoji constants using explicit Unicode escapes to prevent file-encoding corruption
+const WAVE    = '\u{1F44B}' // 👋
+const CART    = '\u{1F6D2}' // 🛒
+const BULLET  = '\u{2022}'  // •
+const LINE    = '\u2501'    // ━ (box-drawing)
+const MONEY   = '\u{1F4B0}' // 💰
+
 /**
- * Builds the WhatsApp checkout message and direct link
+ * Builds the WhatsApp checkout message for a multi-item cart
  */
 export function buildCartWhatsAppMessage(items: CartItem[], total: number): string {
   if (items.length === 0) return ''
 
-  let message = `Hola LyL Select! 👋 Quiero confirmar el siguiente pedido:\n\n🛒 *DETALLE DEL PEDIDO:*\n`
+  const separator = LINE.repeat(20)
+
+  let message = `Hola LyL Select! ${WAVE} Quiero confirmar el siguiente pedido:\n\n${CART} *DETALLE DEL PEDIDO:*\n`
 
   items.forEach((item, index) => {
     message += `\n${index + 1}. *${item.marca} - ${item.nombre}*\n`
     if (item.formatoLabel) {
-      message += `   • Formato: ${item.formatoLabel}\n`
+      message += `   ${BULLET} Formato: ${item.formatoLabel}\n`
     }
     if (item.sabor) {
-      message += `   • Sabor: ${item.sabor}\n`
+      message += `   ${BULLET} Sabor: ${item.sabor}\n`
     }
     if (item.cantidad > 1) {
-      message += `   • Cantidad: ${item.cantidad}\n`
-      message += `   • Subtotal: ${formatPriceARS(item.precio * item.cantidad)} (${formatPriceARS(item.precio)} c/u)\n`
+      message += `   ${BULLET} Cantidad: ${item.cantidad}\n`
+      message += `   ${BULLET} Subtotal: ${formatPriceARS(item.precio * item.cantidad)} (${formatPriceARS(item.precio)} c/u)\n`
     } else {
-      message += `   • Precio: ${formatPriceARS(item.precio)}\n`
+      message += `   ${BULLET} Precio: ${formatPriceARS(item.precio)}\n`
     }
   })
 
-  message += `\n━━━━━━━━━━━━━━━━━━━━\n`
-  message += `💰 *TOTAL A COORDINAR:* ${formatPriceARS(total)}\n\n`
-  message += `¿Tienen stock para coordinar medio de pago y entrega?`
+  message += `\n${separator}\n`
+  message += `${MONEY} *TOTAL A COORDINAR:* ${formatPriceARS(total)}\n\n`
+  message += `\u00BFTienen stock para coordinar medio de pago y entrega?`
 
   return message
 }
