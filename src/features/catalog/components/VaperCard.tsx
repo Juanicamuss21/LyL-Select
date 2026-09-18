@@ -1,12 +1,17 @@
+'use client'
+
 import Image from 'next/image'
 import type { Vaper } from '../types'
 import { formatPriceARS, buildWhatsAppLink, buildVaperOrderMessage } from '../utils/whatsapp'
+import { useCartStore } from '@/features/cart/store/cartStore'
 
 interface VaperCardProps {
   vaper: Vaper
 }
 
 export function VaperCard({ vaper }: VaperCardProps) {
+  const { addItem } = useCartStore()
+
   const waUrl = buildWhatsAppLink(
     buildVaperOrderMessage({
       nombre: vaper.nombre,
@@ -16,6 +21,21 @@ export function VaperCard({ vaper }: VaperCardProps) {
       precio: vaper.precio,
     })
   )
+
+  const handleAddToCart = () => {
+    if (!vaper.disponible) return
+    addItem({
+      id: `vaper-${vaper.slug}`,
+      type: 'vaper',
+      slug: vaper.slug,
+      nombre: vaper.nombre,
+      marca: vaper.marca,
+      sabor: vaper.sabor,
+      puffs: vaper.puffs,
+      precio: vaper.precio,
+      imagen_url: vaper.imagen_url ?? undefined,
+    })
+  }
 
   return (
     <div className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.07] bg-dark-card transition-all duration-300 hover:border-gold/30 hover:shadow-[0_8px_30px_rgba(0,0,0,0.8)]">
@@ -75,20 +95,35 @@ export function VaperCard({ vaper }: VaperCardProps) {
           </div>
         </div>
 
-        {/* CTA Button */}
-        <div className="mt-4">
+        {/* CTA Buttons */}
+        <div className="mt-4 space-y-2.5">
           {vaper.disponible ? (
-            <a
-              href={waUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-gold via-gold-mid to-gold-light py-2.5 text-xs font-semibold text-black transition-all duration-300 hover:shadow-gold-glow hover:opacity-95"
-            >
-              <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
-                <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2zm5.79 14.07c-.24.68-1.41 1.25-1.95 1.33-.51.08-1.17.11-3.79-.97-2.31-.95-3.8-3.32-3.92-3.47-.11-.16-.95-1.27-.95-2.42s.6-1.72.82-1.95c.21-.24.47-.3.63-.3.16 0 .32.01.45.02.15.01.35-.06.55.42.21.49.71 1.74.77 1.87.06.12.1.27.02.43-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.12-.25.25-.11.49.14.24.62 1.02 1.33 1.65.91.81 1.68 1.06 1.92 1.18.24.12.38.1.52-.06.14-.16.61-.71.77-.95.16-.24.32-.2.53-.12.21.08 1.34.63 1.57.75.23.11.38.18.44.27.06.11.06.61-.18 1.29z" />
-              </svg>
-              <span>Pedir por WhatsApp</span>
-            </a>
+            <>
+              {/* Button 1: Agregar al carrito */}
+              <button
+                type="button"
+                onClick={handleAddToCart}
+                className="flex w-full items-center justify-center gap-2 rounded-xl border border-gold/40 bg-gold/10 py-2.5 text-xs font-semibold text-gold-light transition-all duration-300 hover:border-gold hover:bg-gold hover:text-black hover:shadow-gold-glow active:scale-[0.99]"
+              >
+                <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+                <span>Agregar al carrito</span>
+              </button>
+
+              {/* Button 2: Pedir directo por WhatsApp */}
+              <a
+                href={waUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-gold via-gold-mid to-gold-light py-2.5 text-xs font-semibold text-black transition-all duration-300 hover:shadow-gold-glow hover:opacity-95"
+              >
+                <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
+                  <path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2zm5.79 14.07c-.24.68-1.41 1.25-1.95 1.33-.51.08-1.17.11-3.79-.97-2.31-.95-3.8-3.32-3.92-3.47-.11-.16-.95-1.27-.95-2.42s.6-1.72.82-1.95c.21-.24.47-.3.63-.3.16 0 .32.01.45.02.15.01.35-.06.55.42.21.49.71 1.74.77 1.87.06.12.1.27.02.43-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.12-.25.25-.11.49.14.24.62 1.02 1.33 1.65.91.81 1.68 1.06 1.92 1.18.24.12.38.1.52-.06.14-.16.61-.71.77-.95.16-.24.32-.2.53-.12.21.08 1.34.63 1.57.75.23.11.38.18.44.27.06.11.06.61-.18 1.29z" />
+                </svg>
+                <span>Pedir por WhatsApp</span>
+              </a>
+            </>
           ) : (
             <button
               disabled

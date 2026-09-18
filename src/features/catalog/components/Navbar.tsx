@@ -4,6 +4,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { buildWhatsAppLink, buildGeneralQueryMessage } from '../utils/whatsapp'
+import { CartNavButton } from '@/features/cart/components/CartNavButton'
 
 export function Navbar() {
   const pathname = usePathname()
@@ -49,13 +50,15 @@ export function Navbar() {
           </Link>
         </nav>
 
-        {/* Action Button: WhatsApp */}
-        <div className="flex items-center gap-3">
+        {/* Action Buttons: Cart & WhatsApp */}
+        <div className="flex items-center gap-2 sm:gap-3">
+          <CartNavButton />
+
           <a
             href={waUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="group relative inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-4 py-2 text-xs font-semibold text-gold-light transition-all duration-300 hover:border-gold hover:bg-gold hover:text-black hover:shadow-gold-glow"
+            className="group relative inline-flex items-center gap-2 rounded-full border border-gold/40 bg-gold/10 px-3 sm:px-4 py-2 text-xs font-semibold text-gold-light transition-all duration-300 hover:border-gold hover:bg-gold hover:text-black hover:shadow-gold-glow"
           >
             <svg
               className="h-4 w-4 fill-current transition-transform group-hover:scale-110"
