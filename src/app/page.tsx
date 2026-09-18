@@ -30,8 +30,8 @@ export default async function HomePage() {
 
           {/* Main Title */}
           <h1 className="mt-6 font-serif text-4xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-white">
-            Perfumería de Autor &amp;{' '}
-            <span className="gold-gradient-text block sm:inline">
+            <span className="block">Perfumería de Autor &amp;</span>
+            <span className="gold-gradient-text block mt-1 sm:mt-2">
               Decants Exclusivos
             </span>
           </h1>
@@ -83,15 +83,8 @@ export default async function HomePage() {
             {/* Subtle background glow */}
             <div className="absolute -top-12 -right-12 h-44 w-44 rounded-full bg-gold/10 blur-[60px] pointer-events-none" />
 
-            <div className="relative z-10 flex flex-col md:flex-row items-center gap-6 sm:gap-8">
-              {/* Luxury Decant Flask Icon */}
-              {/* <div className="flex h-16 w-16 sm:h-20 sm:w-20 shrink-0 items-center justify-center rounded-2xl border border-gold/30 bg-gradient-to-br from-gold/15 to-transparent shadow-gold-glow">
-                <svg className="h-8 w-8 sm:h-10 sm:w-10 text-gold-light" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 3.104v5.714a2.25 2.25 0 01-.659 1.591L5 14.5M9.75 3.104c-.251.023-.501.05-.75.082m.75-.082a24.301 24.301 0 014.5 0m0 0v5.714c0 .597.237 1.17.659 1.591L19.8 15.3M14.25 3.104c.251.023.501.05.75.082M19.8 15.3l-1.57.393A9.065 9.065 0 0112 15a9.065 9.065 0 00-6.23-.693L5 14.5m14.8.8l1.402 1.402c1.232 1.232.65 3.318-1.067 3.611A48.309 48.309 0 0112 21c-2.773 0-5.491-.235-8.135-.687-1.718-.293-2.3-2.379-1.067-3.61L5 14.5" />
-                </svg>
-              </div> */}
-
-              <div className="text-center md:text-left flex-1">
+            <div className="relative z-10">
+              <div className="text-center md:text-left">
                 <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/10 px-3 py-1 text-[11px] font-semibold uppercase tracking-widest text-gold-light">
                   <span>✦ Guía de Fragancias</span>
                 </div>

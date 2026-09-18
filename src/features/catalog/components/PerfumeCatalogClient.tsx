@@ -189,20 +189,15 @@ export function PerfumeCatalogClient({ initialPerfumes }: PerfumeCatalogClientPr
         )}
       </div>
 
-      {/* Catalog Grid (Bento Grid layout) */}
+      {/* Catalog Grid */}
       {perfumesFiltrados.length > 0 ? (
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {perfumesFiltrados.map((perfume, index) => {
-            // First item gets featured 2-column styling on desktop if highlighted
-            const isFeatured = index === 0 && perfume.destacado
-            return (
-              <PerfumeCard
-                key={perfume.id}
-                perfume={perfume}
-                destacadoGrande={isFeatured}
-              />
-            )
-          })}
+          {perfumesFiltrados.map((perfume) => (
+            <PerfumeCard
+              key={perfume.id}
+              perfume={perfume}
+            />
+          ))}
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center rounded-2xl border border-white/[0.08] bg-dark-card p-12 text-center">

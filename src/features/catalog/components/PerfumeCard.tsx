@@ -8,7 +8,22 @@ interface PerfumeCardProps {
   destacadoGrande?: boolean
 }
 
-export function PerfumeCard({ perfume, destacadoGrande = false }: PerfumeCardProps) {
+/**
+ * Truncates text strictly at whole-word boundaries to avoid splitting words
+ */
+function truncateWords(text: string, maxChars: number = 110): string {
+  if (!text) return ''
+  const trimmed = text.trim()
+  if (trimmed.length <= maxChars) return trimmed
+  const sub = trimmed.slice(0, maxChars)
+  const lastSpace = sub.lastIndexOf(' ')
+  if (lastSpace > 20) {
+    return sub.slice(0, lastSpace).replace(/[,.:;!?-]+$/, '') + '...'
+  }
+  return sub.replace(/[,.:;!?-]+$/, '') + '...'
+}
+
+export function PerfumeCard({ perfume }: PerfumeCardProps) {
   // Determine minimum available starting price
   const preciosDisponibles: number[] = []
   if (perfume.disponible_decant_5ml && perfume.precio_decant_5ml) {
@@ -35,19 +50,11 @@ export function PerfumeCard({ perfume, destacadoGrande = false }: PerfumeCardPro
   )
 
   return (
-    <div
-      className={`group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.07] bg-dark-card transition-all duration-300 hover:border-gold/30 hover:shadow-[0_8px_30px_rgba(0,0,0,0.8)] ${
-        destacadoGrande
-          ? 'md:col-span-2 md:flex-row md:items-center'
-          : 'flex-col'
-      }`}
-    >
-      {/* Visual Image Container */}
+    <div className="group relative flex h-full flex-col justify-between overflow-hidden rounded-2xl border border-white/[0.07] bg-dark-card transition-all duration-300 hover:border-gold/30 hover:shadow-[0_8px_30px_rgba(0,0,0,0.8)]">
+      {/* Visual Image Container - Fixed uniform aspect ratio */}
       <Link
         href={`/perfumes/${perfume.slug}`}
-        className={`relative overflow-hidden bg-neutral-900 ${
-          destacadoGrande ? 'h-64 sm:h-80 md:h-full md:w-1/2' : 'h-64 sm:h-72 w-full'
-        }`}
+        className="relative h-64 sm:h-72 w-full overflow-hidden bg-neutral-900 block"
       >
         <Image
           src={perfume.imagen_url}
@@ -82,25 +89,28 @@ export function PerfumeCard({ perfume, destacadoGrande = false }: PerfumeCardPro
         </div>
       </Link>
 
-      {/* Card Content Body */}
+      {/* Card Content Body - Uniform internal spacing */}
       <div className="flex flex-1 flex-col justify-between p-5 sm:p-6">
         <div>
+          {/* Brand and size header */}
           <div className="flex items-center justify-between text-xs tracking-widest uppercase text-gold-light font-medium">
             <span>{perfume.marca}</span>
             <span className="text-[11px] text-neutral-400">{perfume.tamano_original_ml}ml orig.</span>
           </div>
 
+          {/* Perfume Name */}
           <Link href={`/perfumes/${perfume.slug}`} className="mt-1 block group/title">
-            <h3 className="font-serif text-xl sm:text-2xl font-semibold text-white transition-colors group-hover/title:text-gold-light">
+            <h3 className="font-serif text-xl font-semibold text-white transition-colors group-hover/title:text-gold-light line-clamp-1">
               {perfume.nombre}
             </h3>
           </Link>
 
-          <p className="mt-2 line-clamp-2 text-xs leading-relaxed text-neutral-400">
-            {perfume.descripcion}
+          {/* Editorial Description - Strictly word-safe truncation & uniform height */}
+          <p className="mt-2 min-h-[38px] text-xs leading-relaxed text-neutral-400 line-clamp-2 break-words">
+            {truncateWords(perfume.descripcion, 110)}
           </p>
 
-          {/* Formatos y Precios */}
+          {/* Formatos y Precios - Exact same alignment across all cards */}
           <div className="mt-4 grid grid-cols-3 gap-1.5 rounded-xl border border-white/[0.06] bg-black/40 p-2 text-center text-xs">
             <div className="flex flex-col">
               <span className="text-[10px] uppercase tracking-wider text-neutral-400">5ml</span>
@@ -129,7 +139,7 @@ export function PerfumeCard({ perfume, destacadoGrande = false }: PerfumeCardPro
           </div>
         </div>
 
-        {/* Card Actions Footer */}
+        {/* Card Actions Footer - Exactly in same vertical position */}
         <div className="mt-5 flex items-center gap-2 pt-3 border-t border-white/[0.06]">
           <Link
             href={`/perfumes/${perfume.slug}`}
@@ -144,7 +154,7 @@ export function PerfumeCard({ perfume, destacadoGrande = false }: PerfumeCardPro
               target="_blank"
               rel="noopener noreferrer"
               aria-label={`Pedir ${perfume.nombre} por WhatsApp`}
-              className="flex h-10 w-10 items-center justify-center rounded-xl bg-gold/15 text-gold-light transition-all hover:bg-gold hover:text-black hover:shadow-gold-glow"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gold/15 text-gold-light transition-all hover:bg-gold hover:text-black hover:shadow-gold-glow"
               title="Pedir decant rápido por WhatsApp"
             >
               <svg className="h-4 w-4 fill-current" viewBox="0 0 24 24">
