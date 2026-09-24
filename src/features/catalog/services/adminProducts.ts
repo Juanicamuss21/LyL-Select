@@ -15,6 +15,7 @@ export async function uploadProductImage(file: File): Promise<string> {
     .from('products')
     .upload(filePath, file, {
       cacheControl: '3600',
+      contentType: file.type || 'image/webp',
       upsert: false,
     })
 

@@ -16,6 +16,7 @@ import {
 import { uploadProductImage, savePerfume } from '@/features/catalog/services/adminProducts'
 import { getUniqueSlug } from '@/features/catalog/utils/slug'
 import { PerfumeCard } from '@/features/catalog/components/PerfumeCard'
+import { ImageUploader } from './ImageUploader'
 
 interface PerfumeWizardProps {
   initialPerfume?: Perfume | null
@@ -80,7 +81,6 @@ export function PerfumeWizard({ initialPerfume, isDuplicate = false }: PerfumeWi
 
   // Step 4: Imagen y publicar
   const [imagenUrl, setImagenUrl] = useState(initialPerfume?.imagen_url || '')
-  const [uploadingImage, setUploadingImage] = useState(false)
   const [generatedSlug, setGeneratedSlug] = useState(
     isDuplicate ? '' : initialPerfume?.slug || ''
   )
@@ -99,24 +99,6 @@ export function PerfumeWizard({ initialPerfume, isDuplicate = false }: PerfumeWi
       active = false
     }
   }, [nombre, isDuplicate, initialPerfume?.id])
-
-  // Handle image file upload to Supabase Storage
-  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (!file) return
-
-    try {
-      setUploadingImage(true)
-      setErrorMessage(null)
-      const publicUrl = await uploadProductImage(file)
-      setImagenUrl(publicUrl)
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Error al subir la imagen'
-      setErrorMessage(msg)
-    } finally {
-      setUploadingImage(false)
-    }
-  }
 
   // Step validation
   function validateStep(step: number): boolean {
@@ -809,46 +791,15 @@ export function PerfumeWizard({ initialPerfume, isDuplicate = false }: PerfumeWi
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* Left Column: Image upload & Slug info */}
               <div className="lg:col-span-7 space-y-6">
-                <div>
-                  <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-300 mb-2">
-                    Subir foto del perfume (Supabase Storage)
-                  </label>
-
-                  <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                    <label className="flex-1 flex flex-col items-center justify-center p-6 border-2 border-dashed border-white/15 rounded-2xl bg-black/40 hover:border-gold/50 cursor-pointer transition-colors group">
-                      <svg className="h-8 w-8 text-neutral-400 group-hover:text-gold transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-                      </svg>
-                      <span className="mt-2 text-xs font-semibold text-white">
-                        {uploadingImage ? 'Subiendo imagen...' : 'Seleccionar desde tu celular o PC'}
-                      </span>
-                      <span className="text-[10px] text-neutral-500 mt-1">
-                        JPG, PNG, WebP hasta 5MB
-                      </span>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        disabled={uploadingImage}
-                        onChange={handleFileChange}
-                        className="hidden"
-                      />
-                    </label>
-                  </div>
-                </div>
-
-                {/* Alternative Direct URL input */}
-                <div>
-                  <label className="block text-[11px] font-semibold uppercase tracking-wider text-neutral-400 mb-1">
-                    O pegar URL directa de la imagen
-                  </label>
-                  <input
-                    type="url"
-                    value={imagenUrl}
-                    onChange={(e) => setImagenUrl(e.target.value)}
-                    placeholder="https://..."
-                    className="w-full rounded-xl border border-white/10 bg-black/60 px-4 py-2.5 text-xs text-white placeholder-neutral-500 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold transition-colors"
-                  />
-                </div>
+                <ImageUploader
+                  currentImageUrl={imagenUrl}
+                  onImageUploaded={(url) => {
+                    setImagenUrl(url)
+                    setErrorMessage(null)
+                  }}
+                  label="Fotografía del Perfume (Optimización WebP)"
+                  description="Comprime automáticamente a WebP de alta fidelidad (máx. 1200px) en el navegador."
+                />
 
                 {/* Generated Slug Indicator */}
                 <div className="rounded-xl border border-white/[0.06] bg-black/40 p-4">
@@ -919,7 +870,7 @@ export function PerfumeWizard({ initialPerfume, isDuplicate = false }: PerfumeWi
             <button
               type="button"
               onClick={handleSubmit}
-              disabled={isPending || uploadingImage}
+              disabled={isPending}
               className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-gold via-gold-mid to-gold-light px-7 py-3 text-xs font-bold text-black shadow-gold-glow transition-all hover:opacity-95 active:scale-95 disabled:opacity-50"
             >
               {isPending ? (

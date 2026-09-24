@@ -7,6 +7,7 @@ import type { Vaper } from '@/features/catalog/types'
 import { uploadProductImage, saveVaper } from '@/features/catalog/services/adminProducts'
 import { getUniqueSlug } from '@/features/catalog/utils/slug'
 import { VaperCard } from '@/features/catalog/components/VaperCard'
+import { ImageUploader } from './ImageUploader'
 
 interface VaperFormProps {
   initialVaper?: Vaper | null
@@ -29,7 +30,6 @@ export function VaperForm({ initialVaper, isDuplicate = false }: VaperFormProps)
     initialVaper ? initialVaper.destacado : false
   )
   const [imagenUrl, setImagenUrl] = useState(initialVaper?.imagen_url || '')
-  const [uploadingImage, setUploadingImage] = useState(false)
   const [generatedSlug, setGeneratedSlug] = useState(
     isDuplicate ? '' : initialVaper?.slug || ''
   )
@@ -48,23 +48,6 @@ export function VaperForm({ initialVaper, isDuplicate = false }: VaperFormProps)
       active = false
     }
   }, [nombre, isDuplicate, initialVaper?.id])
-
-  async function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const file = e.target.files?.[0]
-    if (!file) return
-
-    try {
-      setUploadingImage(true)
-      setErrorMessage(null)
-      const publicUrl = await uploadProductImage(file)
-      setImagenUrl(publicUrl)
-    } catch (err: unknown) {
-      const msg = err instanceof Error ? err.message : 'Error al subir la imagen'
-      setErrorMessage(msg)
-    } finally {
-      setUploadingImage(false)
-    }
-  }
 
   function validate(): boolean {
     setErrorMessage(null)
@@ -304,37 +287,16 @@ export function VaperForm({ initialVaper, isDuplicate = false }: VaperFormProps)
             </label>
           </div>
 
-          {/* Image Upload Area */}
-          <div className="space-y-3 pt-3 border-t border-white/[0.08]">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-neutral-300">
-              Imagen del Vaper (Supabase Storage)
-            </label>
-
-            <label className="flex flex-col items-center justify-center p-6 border-2 border-dashed border-white/15 rounded-2xl bg-black/40 hover:border-gold/50 cursor-pointer transition-colors group">
-              <svg className="h-7 w-7 text-neutral-400 group-hover:text-gold transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5m-13.5-9L12 3m0 0l4.5 4.5M12 3v13.5" />
-              </svg>
-              <span className="mt-2 text-xs font-semibold text-white">
-                {uploadingImage ? 'Subiendo imagen...' : 'Seleccionar foto desde tu dispositivo'}
-              </span>
-              <span className="text-[10px] text-neutral-500 mt-1">
-                JPG, PNG, WebP hasta 5MB
-              </span>
-              <input
-                type="file"
-                accept="image/*"
-                disabled={uploadingImage}
-                onChange={handleFileChange}
-                className="hidden"
-              />
-            </label>
-
-            <input
-              type="url"
-              value={imagenUrl}
-              onChange={(e) => setImagenUrl(e.target.value)}
-              placeholder="O pegar URL directa de la imagen..."
-              className="w-full rounded-xl border border-white/10 bg-black/60 px-4 py-2.5 text-xs text-white placeholder-neutral-500 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold transition-colors"
+          {/* Image Upload Area with browser optimization */}
+          <div className="pt-2 border-t border-white/[0.08]">
+            <ImageUploader
+              currentImageUrl={imagenUrl}
+              onImageUploaded={(url) => {
+                setImagenUrl(url)
+                setErrorMessage(null)
+              }}
+              label="Imagen del Vaper (Optimización WebP)"
+              description="Comprime automáticamente a WebP de alta fidelidad (máx. 1200px) en el navegador."
             />
           </div>
 
@@ -357,7 +319,7 @@ export function VaperForm({ initialVaper, isDuplicate = false }: VaperFormProps)
 
             <button
               type="submit"
-              disabled={isPending || uploadingImage}
+              disabled={isPending}
               className="flex items-center gap-2 rounded-xl bg-gradient-to-r from-gold via-gold-mid to-gold-light px-7 py-3 text-xs font-bold text-black shadow-gold-glow transition-all hover:opacity-95 active:scale-95 disabled:opacity-50"
             >
               {isPending ? (
