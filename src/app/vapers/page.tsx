@@ -1,10 +1,9 @@
 import type { Metadata } from 'next'
-import Image from 'next/image'
-import Link from 'next/link'
 import { Navbar } from '@/features/catalog/components/Navbar'
 import { VaperCatalogClient } from '@/features/catalog/components/VaperCatalogClient'
+import { SiteFooter } from '@/features/catalog/components/SiteFooter'
 import { getVapers } from '@/features/catalog/services/catalog'
-import { buildWhatsAppLink, buildGeneralQueryMessage } from '@/features/catalog/utils/whatsapp'
+import { buildGeneralQueryMessage } from '@/features/catalog/utils/whatsapp'
 
 export const revalidate = 60
 
@@ -38,7 +37,7 @@ export const metadata: Metadata = {
 
 export default async function VapersPage() {
   const vapers = await getVapers()
-  const waUrl = buildWhatsAppLink(buildGeneralQueryMessage())
+  const waMessage = buildGeneralQueryMessage()
 
   return (
     <div className="flex min-h-screen flex-col bg-dark-bg selection:bg-gold/20 selection:text-gold-light">
@@ -70,33 +69,7 @@ export default async function VapersPage() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-white/[0.08] bg-black py-10 text-center text-xs text-neutral-400">
-        <div className="mx-auto max-w-7xl px-4 space-y-3">
-          <div className="flex justify-center">
-            <Link href="/" className="inline-block transition-transform duration-300 hover:scale-105">
-              <Image
-                src="/logo.png"
-                alt="LyL Select"
-                width={80}
-                height={80}
-                className="h-20 w-20 object-contain"
-              />
-            </Link>
-          </div>
-          <p>Línea exclusiva de vapeo y perfumería de autor.</p>
-          <div className="pt-3">
-            <a
-              href={waUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gold-light hover:underline font-semibold"
-            >
-              Consultar por WhatsApp (+54 9 385 435-3077)
-            </a>
-          </div>
-        </div>
-      </footer>
+      <SiteFooter waMessage={waMessage} />
     </div>
   )
 }

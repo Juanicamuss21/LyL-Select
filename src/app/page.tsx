@@ -2,14 +2,15 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Navbar } from '@/features/catalog/components/Navbar'
 import { PerfumeCatalogClient } from '@/features/catalog/components/PerfumeCatalogClient'
+import { SiteFooter } from '@/features/catalog/components/SiteFooter'
 import { getPerfumes } from '@/features/catalog/services/catalog'
-import { buildWhatsAppLink, buildGeneralQueryMessage } from '@/features/catalog/utils/whatsapp'
+import { buildGeneralQueryMessage } from '@/features/catalog/utils/whatsapp'
 
 export const revalidate = 60
 
 export default async function HomePage() {
   const perfumes = await getPerfumes()
-  const waUrl = buildWhatsAppLink(buildGeneralQueryMessage())
+  const waMessage = buildGeneralQueryMessage()
 
   return (
     <div className="flex min-h-screen flex-col bg-dark-bg selection:bg-gold/20 selection:text-gold-light">
@@ -138,42 +139,7 @@ export default async function HomePage() {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-white/[0.08] bg-black py-12 text-center text-xs text-neutral-400">
-        <div className="mx-auto max-w-7xl px-4 space-y-4">
-          <div className="flex justify-center">
-            <Link href="/" className="inline-block transition-transform duration-300 hover:scale-105">
-              <Image
-                src="/logo.png"
-                alt="LyL Select"
-                width={80}
-                height={80}
-                className="h-20 w-20 object-contain"
-              />
-            </Link>
-          </div>
-          <p className="max-w-md mx-auto text-neutral-400">
-            Perfumería de autor, decants seleccionados y vapers importados. Calidad garantizada en cada atomización.
-          </p>
-          <div className="pt-4 flex items-center justify-center gap-6">
-            <a
-              href={waUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-gold-light hover:underline font-semibold"
-            >
-              WhatsApp (+54 9 385 435-3077)
-            </a>
-            <span className="text-neutral-700">|</span>
-            <Link href="/vapers" className="hover:text-white transition-colors">
-              Línea Vapers
-            </Link>
-          </div>
-          <div className="pt-6 text-[11px] text-neutral-400 border-t border-white/[0.04]">
-            © {new Date().getFullYear()} LyL Select. Todos los derechos reservados.
-          </div>
-        </div>
-      </footer>
+      <SiteFooter waMessage={waMessage} />
     </div>
   )
 }
