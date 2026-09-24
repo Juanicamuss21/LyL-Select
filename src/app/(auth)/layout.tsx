@@ -4,8 +4,7 @@ export default function AuthLayout({
   children: React.ReactNode
 }) {
   return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Layout para rutas de autenticación */}
+    <div className="min-h-screen bg-dark-bg text-neutral-200 flex flex-col justify-center">
       {children}
     </div>
   )

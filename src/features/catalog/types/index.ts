@@ -52,3 +52,49 @@ export interface Vaper {
   imagen_url: string
   created_at: string
 }
+
+export const FAMILIAS_OLFATIVAS: { id: FamiliaOlfativa; label: string }[] = [
+  { id: 'oriental', label: 'Oriental' },
+  { id: 'amaderado', label: 'Amaderado' },
+  { id: 'dulce', label: 'Dulce / Gourmand' },
+  { id: 'especiado', label: 'Especiado' },
+  { id: 'acuatico', label: 'Acuático' },
+  { id: 'citrico', label: 'Cítrico' },
+  { id: 'floral', label: 'Floral' },
+  { id: 'aromatico', label: 'Aromático' },
+]
+
+export const GENEROS_FRAGANCIA: { id: GeneroFragancia; label: string }[] = [
+  { id: 'masculino', label: 'Masculino' },
+  { id: 'femenino', label: 'Femenino' },
+  { id: 'unisex', label: 'Unisex' },
+]
+
+export const OPCIONES_DURACION: string[] = [
+  '14+ horas',
+  '12+ horas',
+  '10-12 horas',
+  '9-11 horas',
+  '7-8 horas',
+  '5-6 horas',
+]
+
+export const OPCIONES_PROYECCION: string[] = [
+  'Extrema / Estela memorable',
+  'Fuerte / Invasiva elegante',
+  'Fuerte / Calidez envolvente',
+  'Moderada-Alta magnética',
+  'Moderada-Alta sensual',
+  'Moderada limpia y distinguida',
+  'Suave e íntima',
+]
+
+export const OPCIONES_OCASION: string[] = [
+  'Versátil / Uso diario',
+  'Día / Climas cálidos',
+  'Noche / Salidas y eventos',
+  'Citas íntimas / Celebraciones especiales',
+  'Eventos exclusivos / Negocios',
+  'Clima frío / Otoño e Invierno',
+]
+

@@ -2,9 +2,16 @@
 
 import { useCartStore } from '../store/cartStore'
 import { formatPriceARS } from '@/features/catalog/utils/whatsapp'
+import { usePathname } from 'next/navigation'
 
 export function FloatingCartButton() {
+  const pathname = usePathname()
   const { openCart, getTotalItems, getTotalPrice, hasHydrated, isOpen } = useCartStore()
+
+  // Hide floating button on admin and login pages
+  if (pathname?.startsWith('/admin') || pathname?.startsWith('/login')) {
+    return null
+  }
 
   // Hide floating button if drawer is already open
   if (isOpen) return null
