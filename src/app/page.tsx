@@ -17,12 +17,46 @@ export default async function HomePage() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden border-b border-white/[0.08] py-16 sm:py-24">
-        {/* Background glow effects */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-gold/10 blur-[120px] pointer-events-none" />
-        <div className="absolute top-1/2 right-10 h-64 w-64 rounded-full bg-amber-500/5 blur-[100px] pointer-events-none" />
+      <section className="relative isolate overflow-hidden border-b border-white/[0.08] py-16 sm:py-24 lg:py-28">
+        {/* Background Image: Responsive Desktop & Mobile with next/image */}
+        {/* Desktop Image (16:9) */}
+        <div className="hidden md:block absolute inset-0 z-0 select-none pointer-events-none">
+          <Image
+            src="/images/hero-desktop.webp"
+            alt="Silueta de perfumería de lujo y fragancias de autor"
+            fill
+            priority
+            quality={92}
+            sizes="100vw"
+            className="object-cover object-right"
+          />
+          {/* Degradé horizontal: oscuro profundo a la izquierda y centro, desvaneciéndose hacia la silueta a la derecha */}
+          <div className="absolute inset-0 bg-gradient-to-r from-dark-bg via-dark-bg/85 via-50% to-transparent" />
+          {/* Suavizado vertical superior e inferior con el fondo de la página */}
+          <div className="absolute inset-0 bg-gradient-to-b from-dark-bg/80 via-transparent to-dark-bg" />
+        </div>
 
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+        {/* Mobile Image (3:4) */}
+        <div className="block md:hidden absolute inset-0 z-0 select-none pointer-events-none">
+          <Image
+            src="/images/hero-mobile.webp"
+            alt="Silueta de perfumería de lujo y fragancias de autor"
+            fill
+            priority
+            quality={92}
+            sizes="100vw"
+            className="object-cover object-bottom"
+          />
+          {/* Degradé vertical: oscuro sólido arriba y medio para legibilidad perfecta del título y botones */}
+          <div className="absolute inset-0 bg-gradient-to-b from-dark-bg via-dark-bg/80 via-55% to-dark-bg/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-dark-bg via-transparent to-transparent" />
+        </div>
+
+        {/* Background glow effects */}
+        <div className="absolute top-1/4 left-1/3 -translate-x-1/2 -translate-y-1/2 h-96 w-96 rounded-full bg-gold/10 blur-[130px] pointer-events-none z-0" />
+        <div className="absolute top-1/2 right-10 h-64 w-64 rounded-full bg-amber-500/10 blur-[110px] pointer-events-none z-0" />
+
+        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
           {/* Subtle Tag */}
           <div className="inline-flex items-center gap-2 rounded-full border border-gold/30 bg-gold/5 px-4 py-1.5 text-xs font-medium text-gold-light backdrop-blur-md">
             <span className="h-1.5 w-1.5 rounded-full bg-gold animate-pulse" />
