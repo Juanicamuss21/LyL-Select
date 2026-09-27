@@ -99,13 +99,13 @@ export default async function HomePage() {
               href="#catalogo"
               className="rounded-full bg-gradient-to-r from-gold via-gold-mid to-gold-light px-8 py-3.5 text-sm font-bold text-black shadow-gold-glow hover:opacity-95 hover:shadow-gold-glow-lg active:scale-95 transition-all cursor-pointer"
             >
-              Explorar Catálogo de Perfumes ↓
+              Explorar Catálogo de Perfumes
             </a>
             <Link
               href="/vapers"
               className="rounded-full border border-white/15 bg-white/[0.03] px-8 py-3.5 text-sm font-semibold text-white hover:border-gold/50 hover:bg-gold/10 hover:text-gold-light transition-all"
             >
-              Ver Vapers Descartables →
+              Ver Vapers Descartables
             </Link>
           </div>
         </div>
