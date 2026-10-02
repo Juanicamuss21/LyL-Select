@@ -1,7 +1,9 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { getSiteConfigClient, saveSiteConfig } from '@/features/config/services/config'
+import { useRouter } from 'next/navigation'
+import { getSiteConfigClient } from '@/features/config/services/config'
+import { saveSiteConfigAction } from '@/features/config/actions/config'
 import type { SiteConfigInput } from '@/features/config/types'
 
 const WHATSAPP_REGEX = /^\+?[0-9]{10,15}$/
@@ -59,6 +61,7 @@ const DEFAULT_FORM: SiteConfigInput = {
 }
 
 export function ConfigForm() {
+  const router = useRouter()
   const [form, setForm] = useState<SiteConfigInput>(DEFAULT_FORM)
   const [errors, setErrors] = useState<Record<string, string>>({})
   const [loading, setLoading] = useState(true)
@@ -112,11 +115,12 @@ export function ConfigForm() {
       facebook_url: form.facebook_url?.trim() || null,
     }
 
-    const result = await saveSiteConfig(payload)
+    const result = await saveSiteConfigAction(payload)
     setSaving(false)
 
     if (result.success) {
       setSaved(true)
+      router.refresh()
       setTimeout(() => setSaved(false), 3500)
     } else {
       setSaveError(result.error || 'Error al guardar los datos. Intentá de nuevo.')

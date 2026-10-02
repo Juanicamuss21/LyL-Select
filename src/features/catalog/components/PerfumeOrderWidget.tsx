@@ -4,12 +4,14 @@ import { useState } from 'react'
 import type { Perfume, FormatoPerfume } from '../types'
 import { formatPriceARS, buildWhatsAppLink, buildPerfumeOrderMessage } from '../utils/whatsapp'
 import { useCartStore } from '@/features/cart/store/cartStore'
+import { useSiteConfig } from '@/features/config/context/SiteConfigContext'
 
 interface PerfumeOrderWidgetProps {
   perfume: Perfume
 }
 
 export function PerfumeOrderWidget({ perfume }: PerfumeOrderWidgetProps) {
+  const { whatsappNumber } = useSiteConfig()
   // Determine default format: pick the first available format
   const initialFormat: FormatoPerfume = perfume.disponible_decant_5ml && perfume.precio_decant_5ml
     ? 'decant_5ml'
@@ -57,7 +59,8 @@ export function PerfumeOrderWidget({ perfume }: PerfumeOrderWidgetProps) {
           ? '10ml'
           : 'frasco',
       precio: opcionSeleccionada.precio,
-    })
+    }),
+    whatsappNumber
   )
 
   const { addItem } = useCartStore()

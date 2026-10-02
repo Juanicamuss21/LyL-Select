@@ -6,6 +6,7 @@ import { useRouter, usePathname } from 'next/navigation'
 import { useCartStore } from '../store/cartStore'
 import { formatPriceARS } from '@/features/catalog/utils/whatsapp'
 import { buildCartWhatsAppUrl } from '../utils/whatsappCheckout'
+import { useSiteConfig } from '@/features/config/context/SiteConfigContext'
 
 export function CartDrawer() {
   const router = useRouter()
@@ -24,6 +25,8 @@ export function CartDrawer() {
     lastAddedId,
     setLastAddedId,
   } = useCartStore()
+
+  const { whatsappNumber } = useSiteConfig()
 
   const itemsContainerRef = useRef<HTMLDivElement>(null)
   const [highlightedId, setHighlightedId] = useState<string | null>(null)
@@ -104,7 +107,7 @@ export function CartDrawer() {
   const totalItems = hasHydrated ? getTotalItems() : 0
 
   const handleCheckout = () => {
-    const url = buildCartWhatsAppUrl(items, total)
+    const url = buildCartWhatsAppUrl(items, total, whatsappNumber)
     window.open(url, '_blank')
     clearCart()
     closeCart()

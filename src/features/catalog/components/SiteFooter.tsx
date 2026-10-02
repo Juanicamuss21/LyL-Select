@@ -13,7 +13,7 @@ export async function SiteFooter({ waMessage }: SiteFooterProps) {
 
   const waNumber = config?.whatsapp_number || '5493854353077'
   const greeting = config?.whatsapp_greeting || 'Hola LyL Select! 👋 Consulta desde el sitio web.'
-  const waUrl = buildWhatsAppLink(waMessage ?? greeting)
+  const waUrl = buildWhatsAppLink(waMessage || greeting, waNumber)
 
   const instagramUrl = config?.instagram_url || null
   const tiktokUrl = config?.tiktok_url || null

@@ -4,12 +4,14 @@ import Image from 'next/image'
 import type { Vaper } from '../types'
 import { formatPriceARS, buildWhatsAppLink, buildVaperOrderMessage } from '../utils/whatsapp'
 import { useCartStore } from '@/features/cart/store/cartStore'
+import { useSiteConfig } from '@/features/config/context/SiteConfigContext'
 
 interface VaperCardProps {
   vaper: Vaper
 }
 
 export function VaperCard({ vaper }: VaperCardProps) {
+  const { whatsappNumber } = useSiteConfig()
   const { addItem } = useCartStore()
 
   const waUrl = buildWhatsAppLink(
@@ -19,7 +21,8 @@ export function VaperCard({ vaper }: VaperCardProps) {
       sabor: vaper.sabor,
       puffs: vaper.puffs,
       precio: vaper.precio,
-    })
+    }),
+    whatsappNumber
   )
 
   const handleAddToCart = () => {

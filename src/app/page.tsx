@@ -4,13 +4,11 @@ import { Navbar } from '@/features/catalog/components/Navbar'
 import { PerfumeCatalogClient } from '@/features/catalog/components/PerfumeCatalogClient'
 import { SiteFooter } from '@/features/catalog/components/SiteFooter'
 import { getPerfumes } from '@/features/catalog/services/catalog'
-import { buildGeneralQueryMessage } from '@/features/catalog/utils/whatsapp'
 
 export const revalidate = 60
 
 export default async function HomePage() {
   const perfumes = await getPerfumes()
-  const waMessage = buildGeneralQueryMessage()
 
   return (
     <div className="flex min-h-screen flex-col bg-dark-bg selection:bg-gold/20 selection:text-gold-light">
@@ -173,7 +171,7 @@ export default async function HomePage() {
         </div>
       </main>
 
-      <SiteFooter waMessage={waMessage} />
+      <SiteFooter />
     </div>
   )
 }

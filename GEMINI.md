@@ -193,10 +193,13 @@ Liquid Glass, Gradient Mesh, Neumorphism, Bento Grid, Neobrutalism
 - **Error**: Puerto hardcodeado causa conflictos
 - **Fix**: Siempre usar `npm run dev` (auto-detecta puerto)
 
-### 2026-09-17: Error "Can't resolve 'fs'" con Tailwind CSS v3
-- **Error**: `globals.css` tenía `@import 'tailwindcss';` (sintaxis v4), lo que hace que Turbopack intente empaquetar `tailwindcss/lib/index.js` en el bundle de cliente, fallando con `Can't resolve 'fs'` en fast-glob/@nodelib.
-- **Fix**: En Tailwind v3 usar siempre `@tailwind base; @tailwind components; @tailwind utilities;`.
-- **Extra**: En `src/lib/supabase/server.ts`, tipar `cookiesToSet` con `Parameters<SetAllCookies>[0]` para pasar el typecheck estricto de TS.
+### 2026-10-01: Propagación de WhatsApp/Config y Revalidación de Caché Next.js
+- **Error**: Modificar la configuración en `/admin/configuracion` no actualizaba los botones de WhatsApp ni el checkout en el sitio público. Además, en `SiteFooter`, el texto mostraba el número nuevo pero el link seguía apuntando al número hardcodeado en `buildWhatsAppLink()`. No se ejecutaba Server Action con `revalidatePath()`.
+- **Fix**:
+  1. Los generadores de enlaces (`buildWhatsAppLink` y `buildCartWhatsAppUrl`) ahora reciben `whatsappNumber` dinámico y sanitizan los dígitos con `cleanWhatsAppNumber()`.
+  2. Implementación de `SiteConfigProvider` + hook `useSiteConfig()` consumido por Header (`Navbar`), Carrito (`CartDrawer`), Ficha de producto (`PerfumeOrderWidget`), y Tarjetas (`PerfumeCard`, `VaperCard`).
+  3. `SiteFooter` pasa `waNumber` directamente a `buildWhatsAppLink()`.
+  4. Guardado migrado a Server Action `saveSiteConfigAction` que invoca `revalidatePath('/', 'layout')` forzando la revalidación instantánea de todo el árbol en Next.js.
 
 ---
 

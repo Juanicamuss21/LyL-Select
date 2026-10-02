@@ -5,13 +5,15 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { buildWhatsAppLink, buildGeneralQueryMessage } from '../utils/whatsapp'
 import { CartNavButton } from '@/features/cart/components/CartNavButton'
+import { useSiteConfig } from '@/features/config/context/SiteConfigContext'
 
 export function Navbar() {
   const pathname = usePathname()
   const isPerfumes = pathname === '/' || pathname.startsWith('/perfumes')
   const isVapers = pathname.startsWith('/vapers')
 
-  const waUrl = buildWhatsAppLink(buildGeneralQueryMessage())
+  const { whatsappNumber, whatsappGreeting } = useSiteConfig()
+  const waUrl = buildWhatsAppLink(whatsappGreeting || buildGeneralQueryMessage(), whatsappNumber)
 
   const handlePerfumesClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (pathname === '/') {

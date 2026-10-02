@@ -67,18 +67,24 @@ export const metadata: Metadata = {
 
 import { CartDrawer } from '@/features/cart/components/CartDrawer'
 import { FloatingCartButton } from '@/features/cart/components/FloatingCartButton'
+import { getSiteConfig } from '@/features/config/services/config.server'
+import { SiteConfigProvider } from '@/features/config/context/SiteConfigContext'
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const config = await getSiteConfig()
+
   return (
     <html lang="es" className={`${playfair.variable} ${jakarta.variable} dark`}>
       <body className="min-h-screen bg-dark-bg text-neutral-200 antialiased">
-        {children}
-        <CartDrawer />
-        <FloatingCartButton />
+        <SiteConfigProvider initialConfig={config}>
+          {children}
+          <CartDrawer />
+          <FloatingCartButton />
+        </SiteConfigProvider>
       </body>
     </html>
   )

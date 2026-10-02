@@ -4,7 +4,6 @@ import { Navbar } from '@/features/catalog/components/Navbar'
 import { VaperCatalogClient } from '@/features/catalog/components/VaperCatalogClient'
 import { SiteFooter } from '@/features/catalog/components/SiteFooter'
 import { getVapers } from '@/features/catalog/services/catalog'
-import { buildGeneralQueryMessage } from '@/features/catalog/utils/whatsapp'
 
 export const revalidate = 60
 
@@ -38,7 +37,6 @@ export const metadata: Metadata = {
 
 export default async function VapersPage() {
   const vapers = await getVapers()
-  const waMessage = buildGeneralQueryMessage()
 
   return (
     <div className="flex min-h-screen flex-col bg-dark-bg selection:bg-gold/20 selection:text-gold-light">
@@ -106,7 +104,7 @@ export default async function VapersPage() {
         </div>
       </main>
 
-      <SiteFooter waMessage={waMessage} />
+      <SiteFooter />
     </div>
   )
 }

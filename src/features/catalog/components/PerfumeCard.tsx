@@ -5,6 +5,7 @@ import Image from 'next/image'
 import type { Perfume } from '../types'
 import { formatPriceARS, buildWhatsAppLink, buildPerfumeOrderMessage } from '../utils/whatsapp'
 import { useCartStore } from '@/features/cart/store/cartStore'
+import { useSiteConfig } from '@/features/config/context/SiteConfigContext'
 
 interface PerfumeCardProps {
   perfume: Perfume
@@ -27,6 +28,7 @@ function truncateWords(text: string, maxChars: number = 110): string {
 }
 
 export function PerfumeCard({ perfume }: PerfumeCardProps) {
+  const { whatsappNumber } = useSiteConfig()
   const { addItem } = useCartStore()
 
   // Determine minimum available starting price
@@ -74,7 +76,8 @@ export function PerfumeCard({ perfume }: PerfumeCardProps) {
       marca: perfume.marca,
       formato: perfume.disponible_decant_5ml ? '5ml' : perfume.disponible_decant_10ml ? '10ml' : 'frasco',
       precio: precioMinimo,
-    })
+    }),
+    whatsappNumber
   )
 
   return (

@@ -1,5 +1,11 @@
 export const LYL_WHATSAPP_NUMBER = '5493854353077'
 
+export function cleanWhatsAppNumber(number?: string | null): string {
+  if (!number) return LYL_WHATSAPP_NUMBER
+  const cleaned = number.replace(/\D/g, '')
+  return cleaned || LYL_WHATSAPP_NUMBER
+}
+
 export function formatPriceARS(value: number | null | undefined): string {
   if (value === null || value === undefined) return '-'
   return new Intl.NumberFormat('es-AR', {
@@ -9,9 +15,10 @@ export function formatPriceARS(value: number | null | undefined): string {
   }).format(value)
 }
 
-export function buildWhatsAppLink(message: string): string {
+export function buildWhatsAppLink(message: string, whatsappNumber?: string | null): string {
+  const cleanNumber = cleanWhatsAppNumber(whatsappNumber)
   const encodedText = encodeURIComponent(message.trim())
-  return `https://wa.me/${LYL_WHATSAPP_NUMBER}?text=${encodedText}`
+  return `https://wa.me/${cleanNumber}?text=${encodedText}`
 }
 
 export function buildPerfumeOrderMessage(params: {

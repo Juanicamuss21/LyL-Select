@@ -1,5 +1,5 @@
 import type { CartItem } from '../types'
-import { formatPriceARS, LYL_WHATSAPP_NUMBER } from '@/features/catalog/utils/whatsapp'
+import { formatPriceARS, cleanWhatsAppNumber } from '@/features/catalog/utils/whatsapp'
 
 // Emoji constants using explicit Unicode escapes to prevent file-encoding corruption
 const WAVE    = '\u{1F44B}' // 👋
@@ -41,7 +41,12 @@ export function buildCartWhatsAppMessage(items: CartItem[], total: number): stri
   return message
 }
 
-export function buildCartWhatsAppUrl(items: CartItem[], total: number): string {
+export function buildCartWhatsAppUrl(
+  items: CartItem[],
+  total: number,
+  whatsappNumber?: string | null
+): string {
+  const cleanNumber = cleanWhatsAppNumber(whatsappNumber)
   const message = buildCartWhatsAppMessage(items, total)
-  return `https://wa.me/${LYL_WHATSAPP_NUMBER}?text=${encodeURIComponent(message.trim())}`
+  return `https://wa.me/${cleanNumber}?text=${encodeURIComponent(message.trim())}`
 }
