@@ -126,7 +126,7 @@ export function CartDrawer() {
         {/* Header */}
         <div className="flex items-center justify-between border-b border-white/[0.08] px-5 py-4 sm:px-6">
           <div className="flex items-center gap-2">
-            <span className="font-serif text-xl font-bold text-white">Tu Carrito</span>
+            <span className="font-sans text-xl font-bold text-white">Tu Carrito</span>
             {totalItems > 0 && (
               <span className="rounded-full border border-gold/30 bg-gold/10 px-2.5 py-0.5 text-xs font-semibold text-gold-light">
                 {totalItems} {totalItems === 1 ? 'ítem' : 'ítems'}
@@ -166,7 +166,7 @@ export function CartDrawer() {
                   <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.625 10.5a.375.375 0 11-.75 0 .375.375 0 01.75 0zm7.5 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
                 </svg>
               </div>
-              <h3 className="mt-4 font-serif text-lg font-semibold text-white">
+              <h3 className="mt-4 font-sans text-lg font-semibold text-white">
                 Tu carrito está vacío
               </h3>
               <p className="mt-2 max-w-xs text-xs text-neutral-400 leading-relaxed">
@@ -177,7 +177,7 @@ export function CartDrawer() {
                   onClick={handleExploreCatalog}
                   className="w-full rounded-xl bg-gradient-to-r from-gold via-gold-mid to-gold-light py-3 text-xs font-bold text-black transition-all hover:shadow-gold-glow active:scale-95"
                 >
-                  Explorar Catálogo ↓
+                  Explorar Catálogo
                 </button>
               </div>
             </div>
@@ -190,99 +190,98 @@ export function CartDrawer() {
                 <div
                   key={item.id}
                   id={`cart-item-${item.id}`}
-                  className={`group relative flex gap-3.5 rounded-xl border p-3.5 backdrop-blur-md transition-all duration-500 ${
-                    isHighlighted
-                      ? 'border-gold bg-gold/10 shadow-gold-glow ring-1 ring-gold/50'
-                      : 'border-white/[0.07] bg-dark-card/60 hover:border-gold/30'
-                  }`}
+                  className={`group relative flex gap-3.5 rounded-xl border p-3.5 backdrop-blur-md transition-all duration-500 ${isHighlighted
+                    ? 'border-gold bg-gold/10 shadow-gold-glow ring-1 ring-gold/50'
+                    : 'border-white/[0.07] bg-dark-card/60 hover:border-gold/30'
+                    }`}
                 >
-                {/* Thumbnail Image */}
-                {item.imagen_url ? (
-                  <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-neutral-900 border border-white/5">
-                    <Image
-                      src={item.imagen_url}
-                      alt={item.nombre}
-                      fill
-                      unoptimized={Boolean(item.imagen_url?.endsWith('.svg'))}
-                      className="object-cover object-center"
-                    />
-                  </div>
-                ) : (
-                  <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-lg bg-black/60 border border-white/5 text-gold">
-                    ✦
-                  </div>
-                )}
+                  {/* Thumbnail Image */}
+                  {item.imagen_url ? (
+                    <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-neutral-900 border border-white/5">
+                      <Image
+                        src={item.imagen_url}
+                        alt={item.nombre}
+                        fill
+                        unoptimized={Boolean(item.imagen_url?.endsWith('.svg'))}
+                        className="object-cover object-center"
+                      />
+                    </div>
+                  ) : (
+                    <div className="flex h-20 w-20 shrink-0 items-center justify-center rounded-lg bg-black/60 border border-white/5 text-gold">
+                      ✦
+                    </div>
+                  )}
 
-                {/* Details */}
-                <div className="flex flex-1 flex-col justify-between min-w-0">
-                  <div>
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="min-w-0">
-                        <span className="block text-[10px] uppercase tracking-wider text-gold-light font-medium truncate">
-                          {item.marca}
-                        </span>
-                        <h4 className="font-serif text-sm font-semibold text-white truncate">
-                          {item.nombre}
-                        </h4>
+                  {/* Details */}
+                  <div className="flex flex-1 flex-col justify-between min-w-0">
+                    <div>
+                      <div className="flex items-start justify-between gap-2">
+                        <div className="min-w-0">
+                          <span className="block text-[10px] uppercase tracking-wider text-gold-light font-medium truncate">
+                            {item.marca}
+                          </span>
+                          <h4 className="font-serif text-sm font-semibold text-white truncate">
+                            {item.nombre}
+                          </h4>
+                        </div>
+
+                        {/* Remove Button */}
+                        <button
+                          onClick={() => removeItem(item.id)}
+                          title="Quitar producto"
+                          aria-label={`Quitar ${item.nombre}`}
+                          className="text-neutral-500 hover:text-rose-400 transition-colors p-1"
+                        >
+                          <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                          </svg>
+                        </button>
                       </div>
 
-                      {/* Remove Button */}
-                      <button
-                        onClick={() => removeItem(item.id)}
-                        title="Quitar producto"
-                        aria-label={`Quitar ${item.nombre}`}
-                        className="text-neutral-500 hover:text-rose-400 transition-colors p-1"
-                      >
-                        <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.5}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                        </svg>
-                      </button>
+                      {/* Format / Flavor pill */}
+                      <div className="mt-1">
+                        {item.formatoLabel && (
+                          <span className="inline-block rounded-md border border-white/10 bg-black/40 px-2 py-0.5 text-[10px] text-neutral-300">
+                            {item.formatoLabel}
+                          </span>
+                        )}
+                        {item.sabor && (
+                          <span className="inline-block rounded-md border border-white/10 bg-black/40 px-2 py-0.5 text-[10px] text-neutral-300">
+                            Sabor: {item.sabor}
+                          </span>
+                        )}
+                      </div>
                     </div>
 
-                    {/* Format / Flavor pill */}
-                    <div className="mt-1">
-                      {item.formatoLabel && (
-                        <span className="inline-block rounded-md border border-white/10 bg-black/40 px-2 py-0.5 text-[10px] text-neutral-300">
-                          {item.formatoLabel}
+                    {/* Quantity & Price Bottom Bar */}
+                    <div className="mt-2 flex items-center justify-between border-t border-white/[0.04] pt-2">
+                      {/* Quantity Selector */}
+                      <div className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-black/40 px-1.5 py-0.5">
+                        <button
+                          onClick={() => updateQuantity(item.id, -1)}
+                          aria-label="Disminuir cantidad"
+                          className="flex h-5 w-5 items-center justify-center text-neutral-400 hover:text-white transition-colors"
+                        >
+                          -
+                        </button>
+                        <span className="w-5 text-center text-xs font-semibold text-white">
+                          {item.cantidad}
                         </span>
-                      )}
-                      {item.sabor && (
-                        <span className="inline-block rounded-md border border-white/10 bg-black/40 px-2 py-0.5 text-[10px] text-neutral-300">
-                          Sabor: {item.sabor}
-                        </span>
-                      )}
-                    </div>
-                  </div>
+                        <button
+                          onClick={() => updateQuantity(item.id, 1)}
+                          aria-label="Aumentar cantidad"
+                          className="flex h-5 w-5 items-center justify-center text-neutral-400 hover:text-white transition-colors"
+                        >
+                          +
+                        </button>
+                      </div>
 
-                  {/* Quantity & Price Bottom Bar */}
-                  <div className="mt-2 flex items-center justify-between border-t border-white/[0.04] pt-2">
-                    {/* Quantity Selector */}
-                    <div className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-black/40 px-1.5 py-0.5">
-                      <button
-                        onClick={() => updateQuantity(item.id, -1)}
-                        aria-label="Disminuir cantidad"
-                        className="flex h-5 w-5 items-center justify-center text-neutral-400 hover:text-white transition-colors"
-                      >
-                        -
-                      </button>
-                      <span className="w-5 text-center text-xs font-semibold text-white">
-                        {item.cantidad}
+                      {/* Item Total Price */}
+                      <span className="font-serif text-sm font-bold text-white">
+                        {formatPriceARS(item.precio * item.cantidad)}
                       </span>
-                      <button
-                        onClick={() => updateQuantity(item.id, 1)}
-                        aria-label="Aumentar cantidad"
-                        className="flex h-5 w-5 items-center justify-center text-neutral-400 hover:text-white transition-colors"
-                      >
-                        +
-                      </button>
                     </div>
-
-                    {/* Item Total Price */}
-                    <span className="font-serif text-sm font-bold text-white">
-                      {formatPriceARS(item.precio * item.cantidad)}
-                    </span>
                   </div>
-                </div>
                 </div>
               )
             })

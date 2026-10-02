@@ -16,8 +16,8 @@ export function PerfumeOrderWidget({ perfume }: PerfumeOrderWidgetProps) {
   const initialFormat: FormatoPerfume = perfume.disponible_decant_5ml && perfume.precio_decant_5ml
     ? 'decant_5ml'
     : perfume.disponible_decant_10ml && perfume.precio_decant_10ml
-    ? 'decant_10ml'
-    : 'frasco_completo'
+      ? 'decant_10ml'
+      : 'frasco_completo'
 
   const [formato, setFormato] = useState<FormatoPerfume>(initialFormat)
 
@@ -56,8 +56,8 @@ export function PerfumeOrderWidget({ perfume }: PerfumeOrderWidgetProps) {
         formato === 'decant_5ml'
           ? '5ml'
           : formato === 'decant_10ml'
-          ? '10ml'
-          : 'frasco',
+            ? '10ml'
+            : 'frasco',
       precio: opcionSeleccionada.precio,
     }),
     whatsappNumber
@@ -97,21 +97,19 @@ export function PerfumeOrderWidget({ perfume }: PerfumeOrderWidgetProps) {
               type="button"
               disabled={!opcion.disponible}
               onClick={() => setFormato(opcion.id)}
-              className={`w-full flex items-center justify-between p-4 rounded-xl border transition-all text-left ${
-                isSelected
-                  ? 'border-gold bg-gold/10 shadow-gold-glow'
-                  : opcion.disponible
+              className={`w-full flex items-center justify-between p-4 rounded-xl border transition-all text-left ${isSelected
+                ? 'border-gold bg-gold/10 shadow-gold-glow'
+                : opcion.disponible
                   ? 'border-white/[0.08] bg-black/40 hover:border-white/20 hover:bg-white/[0.02]'
                   : 'border-white/[0.04] bg-black/20 opacity-40 cursor-not-allowed'
-              }`}
+                }`}
             >
               <div className="flex items-center gap-3">
                 <div
-                  className={`flex h-5 w-5 items-center justify-center rounded-full border ${
-                    isSelected
-                      ? 'border-gold bg-gold'
-                      : 'border-neutral-600 bg-transparent'
-                  }`}
+                  className={`flex h-5 w-5 items-center justify-center rounded-full border ${isSelected
+                    ? 'border-gold bg-gold'
+                    : 'border-neutral-600 bg-transparent'
+                    }`}
                 >
                   {isSelected && <div className="h-2 w-2 rounded-full bg-black" />}
                 </div>
@@ -130,7 +128,7 @@ export function PerfumeOrderWidget({ perfume }: PerfumeOrderWidgetProps) {
               </div>
 
               <div className="text-right">
-                <span className="font-serif text-base font-bold text-white">
+                <span className="font-sans text-base font-bold text-white">
                   {formatPriceARS(opcion.precio)}
                 </span>
               </div>
@@ -147,7 +145,7 @@ export function PerfumeOrderWidget({ perfume }: PerfumeOrderWidgetProps) {
             {opcionSeleccionada.label}
           </span>
         </div>
-        <div className="font-serif text-3xl font-bold text-white">
+        <div className="font-sans text-3xl font-bold text-white">
           {formatPriceARS(opcionSeleccionada.precio)}
         </div>
       </div>

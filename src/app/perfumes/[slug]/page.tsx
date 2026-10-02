@@ -139,7 +139,7 @@ export default async function PerfumeDetailPage({ params }: PerfumePageProps) {
               <div className="rounded-2xl border border-white/[0.08] bg-dark-card/60 p-6 backdrop-blur-md">
                 <h2 className="font-serif text-lg font-semibold text-white flex items-center gap-2">
                   <span className="gold-gradient-text">✦</span>
-                  <span>Pirámide Olfativa</span>
+                  <span className="font-sans">Pirámide Olfativa</span>
                 </h2>
 
                 <div className="mt-5 space-y-4 text-xs">
