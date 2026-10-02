@@ -183,7 +183,7 @@ export default async function MayoristaPage() {
                     </li>
                     <li className="flex items-center gap-2">
                       <span className="text-gold">✦</span>
-                      <span><strong>Fragancias de alta rotación:</strong> Afnan, Lattafa, Armaf, Maison Alhambra y nicho.</span>
+                      <span><strong>Fragancias de alta rotación:</strong> Fragancias de nicho y diseñador en su presentación original sellada.</span>
                     </li>
                     <li className="flex items-center gap-2">
                       <span className="text-gold">✦</span>
@@ -276,7 +276,7 @@ export default async function MayoristaPage() {
                     Pago y Despacho Seguro
                   </h4>
                   <p className="mt-2 text-xs text-neutral-400 leading-relaxed">
-                    Coordinamos el medio de pago más conveniente y despachamos tu pedido con embalaje reforzado y código de seguimiento.
+                    Coordinamos el medio de pago más conveniente y despachamos tu pedido con embalaje reforzado para máxima protección.
                   </p>
                 </div>
               </div>
