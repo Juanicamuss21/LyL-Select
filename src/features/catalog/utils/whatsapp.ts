@@ -52,3 +52,11 @@ export function buildVaperOrderMessage(params: {
 export function buildGeneralQueryMessage(): string {
   return `Hola LyL Select! 👋 Estuve viendo su catálogo web y me gustaría hacerles una consulta sobre perfumes y vapers.`
 }
+
+export function buildMayoristaVapersMessage(): string {
+  return `Hola LyL Select! 👋 Quiero consultar por una compra mayorista de vapers descartables.\n\nCantidad aproximada: \nMarcas o modelos de interés: `
+}
+
+export function buildMayoristaPerfumesMessage(): string {
+  return `Hola LyL Select! 👋 Quiero consultar por una compra mayorista de frascos sellados de perfume.\n\nCantidad aproximada: \nFragancias o marcas de interés: `
+}

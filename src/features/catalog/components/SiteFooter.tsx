@@ -134,6 +134,12 @@ export async function SiteFooter({ waMessage }: SiteFooterProps) {
           <Link href="/vapers" className="hover:text-white transition-colors">
             Línea Vapers
           </Link>
+
+          <span className="text-neutral-700">|</span>
+
+          <Link href="/mayorista" className="hover:text-gold-light transition-colors">
+            Venta Mayorista
+          </Link>
         </div>
 
         <div className="pt-4 text-[11px] text-neutral-500 border-t border-white/[0.04]">

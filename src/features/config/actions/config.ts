@@ -22,6 +22,7 @@ export async function saveSiteConfigAction(
     revalidatePath('/', 'layout')
     revalidatePath('/')
     revalidatePath('/vapers')
+    revalidatePath('/mayorista')
     revalidatePath('/perfumes/[slug]', 'page')
     revalidatePath('/admin/configuracion')
 

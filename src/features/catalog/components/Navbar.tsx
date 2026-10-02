@@ -11,6 +11,7 @@ export function Navbar() {
   const pathname = usePathname()
   const isPerfumes = pathname === '/' || pathname.startsWith('/perfumes')
   const isVapers = pathname.startsWith('/vapers')
+  const isMayorista = pathname.startsWith('/mayorista')
 
   const { whatsappNumber, whatsappGreeting } = useSiteConfig()
   const waUrl = buildWhatsAppLink(whatsappGreeting || buildGeneralQueryMessage(), whatsappNumber)
@@ -63,6 +64,16 @@ export function Navbar() {
           >
             Vapers Descartables
           </Link>
+          <span className="mx-1 h-3.5 w-px bg-white/10" aria-hidden="true" />
+          <Link
+            href="/mayorista"
+            className={`rounded-full px-4 py-2 text-xs uppercase tracking-widest font-medium transition-all ${isMayorista
+                ? 'border border-gold/40 bg-gold/10 text-gold-light font-semibold shadow-[0_0_12px_rgba(212,175,55,0.2)]'
+                : 'text-neutral-400 hover:text-gold-light hover:bg-white/[0.03]'
+              }`}
+          >
+            Venta Mayorista
+          </Link>
         </nav>
 
         {/* Action Buttons: Cart & WhatsApp */}
@@ -107,6 +118,15 @@ export function Navbar() {
             }`}
         >
           Vapers
+        </Link>
+        <Link
+          href="/mayorista"
+          className={`flex-1 py-2.5 text-center text-xs uppercase tracking-wider font-medium transition-colors ${isMayorista
+              ? 'border-b-2 border-gold text-gold-light bg-white/[0.02]'
+              : 'text-neutral-400 hover:text-white'
+            }`}
+        >
+          Mayorista
         </Link>
       </div>
     </header>

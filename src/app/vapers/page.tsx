@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
+import Link from 'next/link'
 import { Navbar } from '@/features/catalog/components/Navbar'
 import { VaperCatalogClient } from '@/features/catalog/components/VaperCatalogClient'
 import { SiteFooter } from '@/features/catalog/components/SiteFooter'
@@ -98,8 +99,34 @@ export default async function VapersPage() {
       </section>
 
       {/* Catalog Container */}
-      <main className="flex-1 py-12 sm:py-16">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <main className="flex-1 py-10 sm:py-14">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 space-y-8">
+          {/* Subtle Mayorista Banner */}
+          <div className="relative overflow-hidden rounded-2xl border border-gold/30 bg-gradient-to-r from-gold/10 via-dark-card/90 to-black/60 p-4 sm:px-6 sm:py-4 shadow-lg backdrop-blur-md">
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+              <div className="flex items-center gap-3 text-center sm:text-left">
+                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-gold/30 bg-gold/15 text-lg">
+                  📦
+                </span>
+                <div>
+                  <p className="text-sm font-semibold text-white">
+                    ¿Comprás para revender? Conocé nuestra sección mayorista
+                  </p>
+                  <p className="text-xs text-neutral-400">
+                    Precios especiales por volumen en vapers descartables originales cerrados de fábrica.
+                  </p>
+                </div>
+              </div>
+              <Link
+                href="/mayorista"
+                className="inline-flex shrink-0 items-center gap-1.5 rounded-xl border border-gold/40 bg-gold/10 px-4 py-2 text-xs font-semibold text-gold-light hover:border-gold hover:bg-gold hover:text-black hover:shadow-gold-glow transition-all active:scale-95"
+              >
+                <span>Ver condiciones mayoristas</span>
+                <span>→</span>
+              </Link>
+            </div>
+          </div>
+
           <VaperCatalogClient initialVapers={vapers} />
         </div>
       </main>
